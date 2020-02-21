@@ -4,11 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AppTrips.Views.TripsPage">
+             x:Class="AppTrips.Views.TripsPage"
+             Title="Listado de viajes">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nuevo" Clicked="NewItem_Clicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-
         <CollectionView
             SelectionMode="Single"
+            ItemsSource="{Binding Trips}"
+            SelectionChanged="TripsColView_SelectionChanged"
             x:Name="TripsColView">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

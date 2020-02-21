@@ -1,26 +1,24 @@
 ﻿using AppTrips.Models;
-using AppTrips.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading.Tasks;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace AppTrips.Views
+namespace AppTrips.ViewModels
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TripsPage : ContentPage
+    public class TripsViewModel : BaseViewModel
     {
-        public TripsPage()
+
+        List<TripModel> _Trips;
+        public List<TripModel> Trips 
+        { 
+            get => _Trips; 
+            set => SetProperty(ref _Trips, value); 
+        }
+
+        public TripsViewModel()
         {
-            InitializeComponent();
-
-            BindingContext = new TripsViewModel();
-
-            /*List<TripModel> trips = new List<TripModel>
+            Trips = new List<TripModel>
             {
                 new TripModel
                 {
@@ -51,22 +49,6 @@ namespace AppTrips.Views
                 }
             };
 
-            TripsColView.ItemsSource = trips;*/
-        }
-
-        private void NewItem_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushModalAsync(new TripDetailPage());
-        }
-
-        private async void TripsColView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var trip = e.CurrentSelection.FirstOrDefault();
-            if (trip != null)
-            {
-                await Navigation.PushModalAsync(new TripDetailPage(trip as TripModel));
-            }
-            TripsColView.SelectedItem = null;
         }
     }
 }
