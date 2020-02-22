@@ -11,7 +11,7 @@ namespace AppTrips
         {
             InitializeComponent();
 
-            MainPage = new TripsPage();
+            MainPage = new NavigationPage(new TripsPage());
         }
 
         protected override void OnStart()

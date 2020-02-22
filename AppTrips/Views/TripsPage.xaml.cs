@@ -56,7 +56,7 @@ namespace AppTrips.Views
 
         private void NewItem_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new TripDetailPage());
+            Navigation.PushAsync(new TripDetailPage());
         }
 
         private async void TripsColView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,7 +64,7 @@ namespace AppTrips.Views
             var trip = e.CurrentSelection.FirstOrDefault();
             if (trip != null)
             {
-                await Navigation.PushModalAsync(new TripDetailPage(trip as TripModel));
+                await Navigation.PushAsync(new TripDetailPage(trip as TripModel));
             }
             TripsColView.SelectedItem = null;
         }
