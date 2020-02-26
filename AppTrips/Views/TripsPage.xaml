@@ -18,7 +18,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid
-                        Padding="10">
+                        Padding="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="1*" />
@@ -26,23 +26,29 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label
+                        <Image
                             Grid.Row="0"
                             Grid.Column="0"
-                            Text="{Binding Title}"
-                            FontSize="Large" />
+                            Grid.RowSpan="3"
+                            HeightRequest="150"
+                            WidthRequest="150"
+                            Aspect="AspectFill"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="CenterAndExpand"
+                            Source="{Binding ImageUrl}" />
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
+                            Text="{Binding Title}"
+                            FontSize="Large" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
                             Text="{Binding TripDate, StringFormat='{0:dd MMM yy}'}" />
                         <Label
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Text="{Binding Notes}"
-                            FontSize="Medium" />
-                        <Label
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Grid.Column="1"
                             Text="{Binding Rating}"
                             FontAttributes="Bold" />

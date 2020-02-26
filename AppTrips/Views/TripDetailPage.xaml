@@ -5,8 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppTrips.Views.TripDetailPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <TableView>
+        <!--TableView>
             <TableView.Root>
                 <TableSection>
                     <EntryCell x:Name="txtTitle" Label="Título" Text="{Binding Title}" />
@@ -15,8 +18,32 @@
                     <EntryCell x:Name="txtNotes" Label="Notas" Text="{Binding Notes}" />
                     <EntryCell x:Name="txtLatitude" Label="Latitud" Keyboard="Numeric" Text="{Binding Latitude}" />
                     <EntryCell x:Name="txtLongitude" Label="Longitud" Keyboard="Numeric" Text="{Binding Longitude}" />
+                    <EntryCell x:Name="txtImageUrl" Label="Imagen" Text="{Binding ImageUrl}" />
                 </TableSection>
             </TableView.Root>
-        </TableView>
+        </-->
+        <StackLayout>
+            <Entry 
+                Placeholder="Titulo" 
+                Text="{Binding Title}" />
+            <DatePicker
+                Date="{Binding TripDate}" />
+            <Entry
+                Placeholder="Rating"
+                Text="{Binding Rating}" />
+            <Entry
+                Placeholder="Latitud"
+                Text="{Binding Latitude}" />
+            <Entry
+                Placeholder="Longitud"
+                Text="{Binding Longitude}" />
+            <Entry
+                Placeholder="Url de la Imagen"
+                Text="{Binding ImageUrl}" />
+            <Editor
+                Placeholder="Notas"
+                VerticalOptions="FillAndExpand"
+                Text="{Binding Notes}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
