@@ -54,7 +54,7 @@ namespace AppTrips.Views
             TripsColView.ItemsSource = trips;*/
         }
 
-        private void NewItem_Clicked(object sender, EventArgs e)
+        /*private void NewItem_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new TripDetailPage());
         }
@@ -67,6 +67,6 @@ namespace AppTrips.Views
                 await Navigation.PushAsync(new TripDetailPage(trip as TripModel));
             }
             TripsColView.SelectedItem = null;
-        }
+        }*/
     }
 }

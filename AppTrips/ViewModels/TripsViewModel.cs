@@ -1,4 +1,5 @@
 ﻿using AppTrips.Models;
+using AppTrips.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,20 @@ namespace AppTrips.ViewModels
     public class TripsViewModel : BaseViewModel
     {
         static TripsViewModel _instance;
+
+        Command _newCommand;
+        public Command NewCommand => _newCommand ?? (_newCommand = new Command(NewAction));
+
+        Command _selectCommand;
+        public Command SelectCommand => _selectCommand ?? (_selectCommand = new Command(SelectAction));
+        //public Command<TripModel> SelectExistingCommand => _selectExistingCommand ?? (_selectExistingCommand = new Command<TripModel>(SelectExistingAction));
+
+        TripModel tripSelected;
+        public TripModel TripSelected
+        {
+            get => tripSelected;
+            set => SetProperty(ref tripSelected, value);
+        }
 
         ObservableCollection<TripModel> _Trips;
         public ObservableCollection<TripModel> Trips 
@@ -65,6 +80,16 @@ namespace AppTrips.ViewModels
         {
             if (_instance == null) _instance = new TripsViewModel();
             return _instance;
+        }
+
+        private void NewAction()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new TripDetailPage());
+        }
+
+        private void SelectAction()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new TripDetailPage(TripSelected));
         }
 
         public async void AddNewTrip(TripModel newTrip)

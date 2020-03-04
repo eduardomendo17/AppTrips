@@ -7,13 +7,13 @@
              x:Class="AppTrips.Views.TripsPage"
              Title="Listado de viajes">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Nuevo" Clicked="NewItem_Clicked" />
+        <ToolbarItem Text="Nuevo" Command="{Binding NewCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <CollectionView
             SelectionMode="Single"
             ItemsSource="{Binding Trips}"
-            SelectionChanged="TripsColView_SelectionChanged"
+            SelectedItem="{Binding TripSelected}"
             x:Name="TripsColView">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -56,6 +56,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
     </ContentPage.Content>
 </ContentPage>
