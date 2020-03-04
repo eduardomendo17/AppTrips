@@ -132,4 +132,7 @@
       <Name>AppTrips</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\background2.png" />
+  </ItemGroup>
 </Project>

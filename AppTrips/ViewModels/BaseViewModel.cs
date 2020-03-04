@@ -10,6 +10,13 @@ namespace AppTrips.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        bool _IsBusy;
+        public bool IsBusy
+        {
+            get => _IsBusy;
+            set => SetProperty(ref _IsBusy, value);
+        }
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace AppTrips.ViewModels
@@ -76,18 +77,22 @@ namespace AppTrips.ViewModels
 
         public TripDetailViewModel(TripModel trip)
         {
-            id = trip.ID;
-            Title = trip.Title;
-            Notes = trip.Notes;
-            Latitude = trip.Latitude;
-            Longitude = trip.Longitude;
-            Rating = trip.Rating;
-            TripDate = trip.TripDate;
-            ImageUrl = trip.ImageUrl;
+            if (trip != null)
+            {
+                id = trip.ID;
+                Title = trip.Title;
+                Notes = trip.Notes;
+                Latitude = trip.Latitude;
+                Longitude = trip.Longitude;
+                Rating = trip.Rating;
+                TripDate = trip.TripDate;
+                ImageUrl = trip.ImageUrl;
+            }
         }
 
-        private void SaveAction()
+        private async void SaveAction()
         {
+            IsBusy = true;
             if (id == 0)
             {
                 TripsViewModel.GetInstance().AddNewTrip(new TripModel
@@ -116,7 +121,11 @@ namespace AppTrips.ViewModels
                 });
             }
 
-            Application.Current.MainPage.Navigation.PopAsync();
+            // Emulamos que esta haciendo algo
+            await Task.Delay(5000);
+
+            IsBusy = false;
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

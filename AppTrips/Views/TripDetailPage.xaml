@@ -23,6 +23,9 @@
             </TableView.Root>
         </-->
         <StackLayout>
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                d:IsRunning="True" />
             <Entry 
                 Placeholder="Titulo" 
                 Text="{Binding Title}" />
@@ -31,6 +34,11 @@
             <Entry
                 Placeholder="Rating"
                 Text="{Binding Rating}" />
+            <Stepper
+                Increment="1"
+                Maximum="5"
+                Minimum="1"
+                Value="{Binding Rating}" />
             <Entry
                 Placeholder="Latitud"
                 Text="{Binding Latitude}" />

@@ -6,6 +6,17 @@
              mc:Ignorable="d"
              x:Class="AppTrips.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Color x:Key="NavigationBar">#554D00</Color>
+            <Style
+                TargetType="NavigationPage">
+                <Setter
+                    Property="BarBackgroundColor"
+                    Value="{StaticResource NavigationBar}" />
+                <Setter
+                    Property="BarTextColor"
+                    Value="Blue" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

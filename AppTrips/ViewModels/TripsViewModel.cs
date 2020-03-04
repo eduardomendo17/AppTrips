@@ -72,6 +72,17 @@ namespace AppTrips.ViewModels
                     Latitude = 19.34665653,
                     Longitude = -10.565657890,
                     ImageUrl = "https://i.blogs.es/56ded0/ral128531876.800x600w/original.jpg"
+                },
+                new TripModel
+                {
+                    ID = 4,
+                    Title = "Sin foto",
+                    Rating = 3,
+                    Notes = "No tengo la foto todavia",
+                    TripDate = new DateTime(2017, 5, 10),
+                    Latitude = 19.34665653,
+                    Longitude = -10.565657890,
+                    ImageUrl = ""
                 }
             };
         }
