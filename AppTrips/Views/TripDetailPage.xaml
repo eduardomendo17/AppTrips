@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:triggers="clr-namespace:AppTrips.Triggers"
              mc:Ignorable="d"
              x:Class="AppTrips.Views.TripDetailPage">
     <ContentPage.ToolbarItems>
@@ -33,7 +34,14 @@
                 Date="{Binding TripDate}" />
             <Entry
                 Placeholder="Rating"
-                Text="{Binding Rating}" />
+                Text="{Binding Rating}">
+                <Entry.Triggers>
+                    <EventTrigger
+                        Event="TextChanged">
+                        <triggers:RatingTrigger />
+                    </EventTrigger>
+                </Entry.Triggers>
+            </Entry>
             <Stepper
                 Increment="1"
                 Maximum="5"
@@ -45,6 +53,9 @@
             <Entry
                 Placeholder="Longitud"
                 Text="{Binding Longitude}" />
+            <Button
+                Text="Obtener ubicación"
+                Command="{Binding GetLocationCommand}" />
             <Entry
                 Placeholder="Url de la Imagen"
                 Text="{Binding ImageUrl}" />

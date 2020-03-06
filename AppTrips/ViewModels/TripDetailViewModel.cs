@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace AppTrips.ViewModels
@@ -21,6 +22,9 @@ namespace AppTrips.ViewModels
                 return _saveCommand;
             }
         }*/
+
+        Command _GetLocationCommand;
+        public Command GetLocationCommand => _GetLocationCommand ?? (_GetLocationCommand = new Command(GetLocationAction));
 
         string _Title;
         public string Title 
@@ -126,6 +130,37 @@ namespace AppTrips.ViewModels
 
             IsBusy = false;
             await Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        private async void GetLocationAction()
+        {
+            try
+            {
+                var location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (location != null)
+                {
+                    //Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    Latitude = location.Latitude;
+                    Longitude = location.Longitude;
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+            }
         }
     }
 }

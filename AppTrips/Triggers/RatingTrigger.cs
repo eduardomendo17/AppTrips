@@ -14,8 +14,18 @@ namespace AppTrips.Triggers
             int n;
             var isNumeric = int.TryParse(sender.Text, out n);
             if (!string.IsNullOrWhiteSpace(sender.Text) &&
-                (!isNumeric || n < 1 || n > 5))
+                !isNumeric && (n < 1 || n > 5))
             {
+                if (n < 1)
+                {
+                    sender.Text = "0";
+                    return;
+                }
+                if (n > 5)
+                {
+                    sender.Text = "5";
+                    return;
+                }
                 sender.Text = _oldValue;
             }
             _oldValue = sender.Text;
