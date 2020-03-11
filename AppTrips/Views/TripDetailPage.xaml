@@ -23,46 +23,56 @@
                 </TableSection>
             </TableView.Root>
         </-->
-        <StackLayout>
-            <ActivityIndicator
-                IsRunning="{Binding IsBusy}"
-                d:IsRunning="True" />
-            <Entry 
-                Placeholder="Titulo" 
-                Text="{Binding Title}" />
-            <DatePicker
-                Date="{Binding TripDate}" />
-            <Entry
-                Placeholder="Rating"
-                Text="{Binding Rating}">
-                <Entry.Triggers>
-                    <EventTrigger
-                        Event="TextChanged">
-                        <triggers:RatingTrigger />
-                    </EventTrigger>
-                </Entry.Triggers>
-            </Entry>
-            <Stepper
-                Increment="1"
-                Maximum="5"
-                Minimum="1"
-                Value="{Binding Rating}" />
-            <Entry
-                Placeholder="Latitud"
-                Text="{Binding Latitude}" />
-            <Entry
-                Placeholder="Longitud"
-                Text="{Binding Longitude}" />
-            <Button
-                Text="Obtener ubicación"
-                Command="{Binding GetLocationCommand}" />
-            <Entry
-                Placeholder="Url de la Imagen"
-                Text="{Binding ImageUrl}" />
-            <Editor
-                Placeholder="Notas"
-                VerticalOptions="FillAndExpand"
-                Text="{Binding Notes}" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    d:IsRunning="True" />
+                <Entry 
+                    Placeholder="Titulo" 
+                    Text="{Binding Title}" />
+                <DatePicker
+                    Date="{Binding TripDate}" />
+                <Entry
+                    Placeholder="Rating"
+                    Text="{Binding Rating}">
+                    <Entry.Triggers>
+                        <EventTrigger
+                            Event="TextChanged">
+                            <triggers:RatingTrigger />
+                        </EventTrigger>
+                    </Entry.Triggers>
+                </Entry>
+                <Stepper
+                    Increment="1"
+                    Maximum="5"
+                    Minimum="1"
+                    Value="{Binding Rating}" />
+                <Entry
+                    Placeholder="Latitud"
+                    Text="{Binding Latitude}" />
+                <Entry
+                    Placeholder="Longitud"
+                    Text="{Binding Longitude}" />
+                <Button
+                    Text="Obtener ubicación"
+                    Command="{Binding GetLocationCommand}" />
+                <Entry
+                    Placeholder="Url de la Imagen"
+                    Text="{Binding ImageUrl}" />
+                <Image
+                    Source="{Binding PictureSource}" />
+                <Button
+                    Text="Tomar fotografía"
+                    Command="{Binding TakePictureCommand}" />
+                <Button
+                    Text="Seleccionar fotografía"
+                    Command="{Binding SelectPictureCommand}" />
+                <Editor
+                    Placeholder="Notas"
+                    VerticalOptions="FillAndExpand"
+                    Text="{Binding Notes}" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

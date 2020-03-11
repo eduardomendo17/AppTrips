@@ -1,4 +1,5 @@
 ﻿using AppTrips.Models;
+using Plugin.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,6 +26,12 @@ namespace AppTrips.ViewModels
 
         Command _GetLocationCommand;
         public Command GetLocationCommand => _GetLocationCommand ?? (_GetLocationCommand = new Command(GetLocationAction));
+
+        Command _TakePictureCommand;
+        public Command TakePictureCommand => _TakePictureCommand ?? (_TakePictureCommand = new Command(TakePictureAction));
+
+        Command _SelectPictureCommand;
+        public Command SelectPictureCommand => _SelectPictureCommand ?? (_SelectPictureCommand = new Command(SelectPictureAction));
 
         string _Title;
         public string Title 
@@ -73,6 +80,13 @@ namespace AppTrips.ViewModels
         {
             get => _ImageUrl;
             set => SetProperty(ref _ImageUrl, value);
+        }
+
+        ImageSource _PictureSource;
+        public ImageSource PictureSource
+        {
+            get => _PictureSource;
+            set => SetProperty(ref _PictureSource, value);
         }
 
         public TripDetailViewModel()
@@ -161,6 +175,69 @@ namespace AppTrips.ViewModels
             {
                 // Unable to get location
             }
+        }
+
+        private async void TakePictureAction()
+        {
+            if (Device.RuntimePlatform == Device.UWP)
+            {
+                await CrossMedia.Current.Initialize();
+            }
+
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await Application.Current.MainPage.DisplayAlert("No Camera", ":( No camera available.", "OK");
+                return;
+            }
+
+            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                Directory = "Sample",
+                Name = "test.jpg"
+            });
+
+            if (file == null)
+                return;
+
+            ImageUrl = file.Path;
+            await Application.Current.MainPage.DisplayAlert("File Location", file.Path, "OK");
+
+            PictureSource = ImageSource.FromStream(() =>
+            {
+                var stream = file.GetStream();
+                return stream;
+            });
+        }
+
+        private async void SelectPictureAction()
+        {
+            if (Device.RuntimePlatform == Device.UWP)
+            {
+                await CrossMedia.Current.Initialize();
+            }
+
+            if (!CrossMedia.Current.IsPickPhotoSupported)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Seleccionar fotografías no soportada", "OK");
+                return;
+            }
+
+            var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+            });
+
+            if (file == null)
+                return;
+
+            ImageUrl = file.Path;
+            //await Application.Current.MainPage.DisplayAlert("File Location", file.Path, "OK");
+
+            PictureSource = ImageSource.FromStream(() =>
+            {
+                var stream = file.GetStream();
+                return stream;
+            });
         }
     }
 }
