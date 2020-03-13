@@ -1,4 +1,5 @@
 ﻿using AppTrips.Models;
+using AppTrips.Services;
 using AppTrips.Views;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace AppTrips.ViewModels
             // Indicamos a esta variable apunte a esta instancia
             _instance = this;
 
-            Trips = new ObservableCollection<TripModel>
+            /*Trips = new ObservableCollection<TripModel>
             {
                 new TripModel
                 {
@@ -84,7 +85,19 @@ namespace AppTrips.ViewModels
                     Longitude = -10.565657890,
                     ImageUrl = ""
                 }
-            };
+            };*/
+            LoadTrips();
+        }
+
+        private async void LoadTrips()
+        {
+            ApiResponse response = await new ApiService().GetDataAsync<TripModel>("trips");
+            if (response == null || !response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error al cargar los viajes", response.Message, "Ok");
+                return;
+            }
+            Trips = (ObservableCollection<TripModel>)response.Result;
         }
 
         public static TripsViewModel GetInstance()
