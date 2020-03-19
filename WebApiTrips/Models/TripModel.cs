@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,9 +22,44 @@ namespace WebApiTrips.Models
         {
         }
 
-        public ObservableCollection<TripModel> GetAll()
+        public ObservableCollection<TripModel> GetAll(string connectionString)
         {
-            return new ObservableCollection<TripModel>
+            ObservableCollection<TripModel> list = new ObservableCollection<TripModel>();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string tsql = "SELECT * FROM Trip";
+                    using (MySqlCommand cmd = new MySqlCommand(tsql, conn))
+                    {
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                list.Add(new TripModel
+                                {
+                                    ID = (int)reader["IDTrip"],
+                                    Title = reader["Title"].ToString(),
+                                    Rating = (int)reader["Rating"],
+                                    Notes = reader["Notes"].ToString(),
+                                    TripDate = (DateTime)reader["TripDate"],
+                                    Latitude = (double)reader["Latitude"],
+                                    Longitude = (double)reader["Longitude"],
+                                    ImageUrl = reader["ImageUrl"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            /*return new ObservableCollection<TripModel>
             {
                 new TripModel
                 {
@@ -69,7 +105,160 @@ namespace WebApiTrips.Models
                     Longitude = -10.565657890,
                     ImageUrl = ""
                 }
-            };
+            };*/
         }
+
+        public TripModel Get(string connectionString, int id)
+        {
+            TripModel obj = new TripModel();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string tsql = "SELECT * FROM Trip WHERE IDTrip = @IDTrip";
+                    using (MySqlCommand cmd = new MySqlCommand(tsql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@IDTrip", id);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                obj = new TripModel
+                                {
+                                    ID = (int)reader["IDTrip"],
+                                    Title = reader["Title"].ToString(),
+                                    Rating = (int)reader["Rating"],
+                                    Notes = reader["Notes"].ToString(),
+                                    TripDate = (DateTime)reader["TripDate"],
+                                    Latitude = (double)reader["Latitude"],
+                                    Longitude = (double)reader["Longitude"],
+                                    ImageUrl = reader["ImageUrl"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+                return obj;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int Insert(string connectionString)
+        {
+            try
+            {
+                object newID;
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string tsql = "INSERT INTO Trip " +
+                                    "(" +
+                                        "Title, " +
+                                        "Rating, " +
+                                        "Notes, " +
+                                        "TripDate, " +
+                                        "Latitude, " +
+                                        "Longitude, " +
+                                        "ImageUrl " +
+                                    ")" +
+                                    "VALUES " +
+                                    "(" +
+                                        "@Title, " +
+                                        "@Rating, " +
+                                        "@Notes, " +
+                                        "@TripDate, " +
+                                        "@Latitude, " +
+                                        "@Longitude, " +
+                                        "@ImageUrl " +
+                                    "); " + 
+                                    "SELECT LAST_INSERT_ID();";
+                    using (MySqlCommand cmd = new MySqlCommand(tsql, conn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@Title", Title);
+                        cmd.Parameters.AddWithValue("@Rating", Rating);
+                        cmd.Parameters.AddWithValue("@Notes", Notes);
+                        cmd.Parameters.AddWithValue("@TripDate", TripDate);
+                        cmd.Parameters.AddWithValue("@Latitude", Latitude);
+                        cmd.Parameters.AddWithValue("@Longitude", Longitude);
+                        cmd.Parameters.AddWithValue("@ImageUrl", ImageUrl);
+                        newID = cmd.ExecuteScalar();
+                    }
+                }
+                if (newID != null && newID.ToString().Length > 0)
+                    return int.Parse(newID.ToString());
+                else
+                    return 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Update(string connectionString)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string tsql = "UPDATE Trip SET " +
+                                   "Title = @Title, " +
+                                   "Rating = @Rating, " +
+                                   "Notes = @Notes, " +
+                                   "TripDate = @TripDate, " +
+                                   "Latitude = @Latitude, " +
+                                   "Longitude = @Longitude, " +
+                                   "ImageUrl = @ImageUrl " +
+                                   "WHERE IDTrip = @IDTrip";
+                    using (MySqlCommand cmd = new MySqlCommand(tsql, conn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@Title", Title);
+                        cmd.Parameters.AddWithValue("@Rating", Rating);
+                        cmd.Parameters.AddWithValue("@Notes", Notes);
+                        cmd.Parameters.AddWithValue("@TripDate", TripDate);
+                        cmd.Parameters.AddWithValue("@Latitude", Latitude);
+                        cmd.Parameters.AddWithValue("@Longitude", Longitude);
+                        cmd.Parameters.AddWithValue("@ImageUrl", ImageUrl);
+                        cmd.Parameters.AddWithValue("@IDTrip", ID);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Delete(string connectionString, int id)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string tsql = "DELETE FROM Trip " +
+                                   "WHERE IDTrip = @IDTrip";
+                    using (MySqlCommand cmd = new MySqlCommand(tsql, conn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@IDTrip", id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
