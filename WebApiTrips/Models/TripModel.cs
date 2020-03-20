@@ -147,7 +147,7 @@ namespace WebApiTrips.Models
             }
         }
 
-        public int Insert(string connectionString)
+        public ApiResponse Insert(string connectionString)
         {
             try
             {
@@ -190,17 +190,35 @@ namespace WebApiTrips.Models
                     }
                 }
                 if (newID != null && newID.ToString().Length > 0)
-                    return int.Parse(newID.ToString());
+                {
+                    return new ApiResponse {
+                        IsSuccess = true,
+                        Result = int.Parse(newID.ToString()),
+                        Message = "El viaje fue generado correctamente"
+                    };
+                }
                 else
-                    return 0;
+                {
+                    return new ApiResponse
+                    {
+                        IsSuccess = false,
+                        Result = 0,
+                        Message = "Hubo un error al generar el viaje"
+                    };
+                }
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                throw;
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Result = null,
+                    Message = exc.Message
+                };
             }
         }
 
-        public void Update(string connectionString)
+        public ApiResponse Update(string connectionString)
         {
             try
             {
@@ -230,14 +248,25 @@ namespace WebApiTrips.Models
                         cmd.ExecuteNonQuery();
                     }
                 }
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Result = ID,
+                    Message = "El viaje fue actualizado correctamente"
+                };
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                throw;
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Result = null,
+                    Message = exc.Message
+                };
             }
         }
 
-        public void Delete(string connectionString, int id)
+        public ApiResponse Delete(string connectionString, int id)
         {
             try
             {
@@ -253,10 +282,21 @@ namespace WebApiTrips.Models
                         cmd.ExecuteNonQuery();
                     }
                 }
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Result = id,
+                    Message = "El viaje fue eliminado correctamente"
+                };
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                throw;
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Result = null,
+                    Message = exc.Message
+                };
             }
         }
 

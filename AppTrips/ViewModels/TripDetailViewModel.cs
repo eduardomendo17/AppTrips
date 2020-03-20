@@ -1,4 +1,5 @@
 ﻿using AppTrips.Models;
+using AppTrips.Services;
 using Plugin.Media;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,17 @@ namespace AppTrips.ViewModels
             IsBusy = true;
             if (id == 0)
             {
-                TripsViewModel.GetInstance().AddNewTrip(new TripModel
+                /*TripsViewModel.GetInstance().AddNewTrip(new TripModel
+                {
+                    Title = this.Title,
+                    Notes = this.Notes,
+                    Latitude = this.Latitude,
+                    Longitude = Longitude,
+                    Rating = Rating,
+                    TripDate = TripDate,
+                    ImageUrl = ImageUrl
+                });*/
+                ApiResponse response = await new ApiService().PostDataAsync("trips", new TripModel
                 {
                     Title = this.Title,
                     Notes = this.Notes,
@@ -123,10 +134,33 @@ namespace AppTrips.ViewModels
                     TripDate = TripDate,
                     ImageUrl = ImageUrl
                 });
+                if (response == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("AppTrips", "Error al crear el viaje", "Ok");
+                    return;
+                }
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
+                    return;
+                }
+                TripsViewModel.GetInstance().RefreshTrips();
+                await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
             }
             else
             {
-                TripsViewModel.GetInstance().ModifyTrip(new TripModel
+                /*TripsViewModel.GetInstance().ModifyTrip(new TripModel
+                {
+                    ID = id,
+                    Title = this.Title,
+                    Notes = this.Notes,
+                    Latitude = this.Latitude,
+                    Longitude = Longitude,
+                    Rating = Rating,
+                    TripDate = TripDate,
+                    ImageUrl = ImageUrl
+                });*/
+                ApiResponse response = await new ApiService().PutDataAsync("trips", new TripModel
                 {
                     ID = id,
                     Title = this.Title,
@@ -137,10 +171,22 @@ namespace AppTrips.ViewModels
                     TripDate = TripDate,
                     ImageUrl = ImageUrl
                 });
+                if (response == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("AppTrips", "Error al actualizar el viaje", "Ok");
+                    return;
+                }
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
+                    return;
+                }
+                TripsViewModel.GetInstance().RefreshTrips();
+                await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
             }
 
             // Emulamos que esta haciendo algo
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
 
             IsBusy = false;
             await Application.Current.MainPage.Navigation.PopAsync();

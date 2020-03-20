@@ -37,23 +37,23 @@ namespace WebApiTrips.Controllers
 
         // POST: api/Trips
         [HttpPost]
-        public int Post([FromBody]TripModel trip)
+        public ApiResponse Post([FromBody]TripModel trip)
         {
             return trip.Insert(Configuration.GetConnectionString("MySQL"));
         }
 
         // PUT: api/Trips/5
         [HttpPut] //("{id}")]
-        public void Put([FromBody]TripModel trip)
+        public ApiResponse Put([FromBody]TripModel trip)
         {
-            trip.Update(Configuration.GetConnectionString("MySQL"));
+            return trip.Update(Configuration.GetConnectionString("MySQL"));
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ApiResponse Delete(int id)
         {
-            new TripModel().Delete(Configuration.GetConnectionString("MySQL"), id);
+            return new TripModel().Delete(Configuration.GetConnectionString("MySQL"), id);
         }
     }
 }

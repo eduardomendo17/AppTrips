@@ -135,5 +135,10 @@ namespace AppTrips.ViewModels
                 }
             }
         }
+
+        public void RefreshTrips()
+        {
+            LoadTrips();
+        }
     }
 }
