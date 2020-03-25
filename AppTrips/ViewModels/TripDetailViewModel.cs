@@ -25,6 +25,9 @@ namespace AppTrips.ViewModels
             }
         }*/
 
+        Command _deleteCommand;
+        public Command DeleteCommand => _deleteCommand ?? (_deleteCommand = new Command(DeleteAction));
+
         Command _GetLocationCommand;
         public Command GetLocationCommand => _GetLocationCommand ?? (_GetLocationCommand = new Command(GetLocationAction));
 
@@ -187,6 +190,28 @@ namespace AppTrips.ViewModels
 
             // Emulamos que esta haciendo algo
             //await Task.Delay(5000);
+
+            IsBusy = false;
+            await Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        private async void DeleteAction()
+        {
+            IsBusy = true;
+
+            ApiResponse response = await new ApiService().DeleteDataAsync("trips", id);
+            if (response == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("AppTrips", "Error al eliminar el viaje", "Ok");
+                return;
+            }
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
+                return;
+            }
+            TripsViewModel.GetInstance().RefreshTrips();
+            await Application.Current.MainPage.DisplayAlert("AppTrips", response.Message, "Ok");
 
             IsBusy = false;
             await Application.Current.MainPage.Navigation.PopAsync();

@@ -7,6 +7,7 @@
              mc:Ignorable="d"
              x:Class="AppTrips.Views.TripDetailPage">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
         <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
