@@ -11,7 +11,7 @@ namespace AppTrips.Services
 {
     public class ApiService
     {
-        private string ApiUrl = "http://192.168.14.27/WebApiTrips/";
+        private string ApiUrl = "http://192.168.14.14/WebApiTrips/";
 
         public async Task<ApiResponse> GetDataAsync<T>(string controller)
         {

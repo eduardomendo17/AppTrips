@@ -1,5 +1,6 @@
 ﻿using AppTrips.Models;
 using AppTrips.Services;
+using AppTrips.Views;
 using Plugin.Media;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace AppTrips.ViewModels
 
         Command _deleteCommand;
         public Command DeleteCommand => _deleteCommand ?? (_deleteCommand = new Command(DeleteAction));
+
+        Command _mapCommand;
+        public Command MapCommand => _mapCommand ?? (_mapCommand = new Command(MapAction));
 
         Command _GetLocationCommand;
         public Command GetLocationCommand => _GetLocationCommand ?? (_GetLocationCommand = new Command(GetLocationAction));
@@ -192,7 +196,7 @@ namespace AppTrips.ViewModels
             //await Task.Delay(5000);
 
             IsBusy = false;
-            await Application.Current.MainPage.Navigation.PopAsync();
+            //await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private async void DeleteAction()
@@ -215,6 +219,18 @@ namespace AppTrips.ViewModels
 
             IsBusy = false;
             await Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        private void MapAction()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new TripMapPage(new TripModel {
+                Title = Title,
+                Notes = Notes,
+                Latitude = Latitude,
+                Longitude = Longitude,
+                Rating = Rating,
+                TripDate = TripDate
+            }));
         }
 
         private async void GetLocationAction()

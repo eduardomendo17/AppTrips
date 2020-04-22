@@ -9,6 +9,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
         <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
+        <ToolbarItem Text="Mapa" Command="{Binding MapCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <!--TableView>
