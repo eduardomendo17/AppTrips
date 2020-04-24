@@ -13,6 +13,9 @@ namespace AppTrips.ViewModels
     {
         static TripsViewModel _instance;
 
+        Command refreshCommand;
+        public Command RefreshCommand => refreshCommand ?? (refreshCommand = new Command(RefreshTrips));
+
         Command _newCommand;
         public Command NewCommand => _newCommand ?? (_newCommand = new Command(NewAction));
 
@@ -91,6 +94,7 @@ namespace AppTrips.ViewModels
 
         private async void LoadTrips()
         {
+            IsBusy = true;
             ApiResponse response = await new ApiService().GetDataAsync<TripModel>("trips");
             if (response == null || !response.IsSuccess)
             {
@@ -98,6 +102,7 @@ namespace AppTrips.ViewModels
                 return;
             }
             Trips = (ObservableCollection<TripModel>)response.Result;
+            IsBusy = false;
         }
 
         public static TripsViewModel GetInstance()
@@ -116,7 +121,7 @@ namespace AppTrips.ViewModels
             Application.Current.MainPage.Navigation.PushAsync(new TripDetailPage(TripSelected));
         }
 
-        public async void AddNewTrip(TripModel newTrip)
+        /*public async void AddNewTrip(TripModel newTrip)
         {
             newTrip.ID = Trips.Count + 1;
             Trips.Add(newTrip);
@@ -134,7 +139,7 @@ namespace AppTrips.ViewModels
                     return;
                 }
             }
-        }
+        }*/
 
         public void RefreshTrips()
         {

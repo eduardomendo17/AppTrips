@@ -4,8 +4,15 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:triggers="clr-namespace:AppTrips.Triggers"
+             xmlns:converter="clr-namespace:AppTrips.Converters"
+             xmlns:renders="clr-namespace:AppTrips.Renders"
              mc:Ignorable="d"
              x:Class="AppTrips.Views.TripDetailPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
         <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
@@ -59,11 +66,8 @@
                 <Button
                     Text="Obtener ubicación"
                     Command="{Binding GetLocationCommand}" />
-                <Entry
-                    Placeholder="Url de la Imagen"
-                    Text="{Binding ImageUrl}" />
                 <Image
-                    Source="{Binding PictureSource}" />
+                    Source="{Binding ImageUrl, Converter={StaticResource ImageConverter}}" />
                 <Button
                     Text="Tomar fotografía"
                     Command="{Binding TakePictureCommand}" />
@@ -74,6 +78,7 @@
                     Placeholder="Notas"
                     VerticalOptions="FillAndExpand"
                     Text="{Binding Notes}" />
+                <renders:MyEntry Text="Prueba de render" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
