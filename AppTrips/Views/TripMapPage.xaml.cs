@@ -1,4 +1,5 @@
 ﻿using AppTrips.Models;
+using AppTrips.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,10 @@ namespace AppTrips.Views
                     new Position(tripSelected.Latitude, tripSelected.Longitude),
                     Distance.FromMiles(.5)
             ));
+
+            string imagePath = new ImageService().SaveImageFromBase64(tripSelected.ImageUrl, tripSelected.ID);
+            tripSelected.ImageUrl = imagePath;
+            MapTrip.Trip = tripSelected;
 
             MapTrip.Pins.Add(
                 new Pin {

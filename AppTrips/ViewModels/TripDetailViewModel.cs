@@ -217,12 +217,14 @@ namespace AppTrips.ViewModels
         private void MapAction()
         {
             Application.Current.MainPage.Navigation.PushAsync(new TripMapPage(new TripModel {
+                ID = id,
                 Title = Title,
                 Notes = Notes,
                 Latitude = Latitude,
                 Longitude = Longitude,
                 Rating = Rating,
-                TripDate = TripDate
+                TripDate = TripDate,
+                ImageUrl = ImageUrl
             }));
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppTrips.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,19 +12,22 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+
+// La plantilla de elemento Control de usuario está documentada en https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace AppTrips.UWP
 {
-    public sealed partial class MainPage
+    public sealed partial class MarkerWindow : UserControl
     {
-        public MainPage()
+        public MarkerWindow(TripModel trip)
         {
             this.InitializeComponent();
 
-            Xamarin.FormsMaps.Init("CVQNY2Q9KgtdHnWgmWi9~6Bj4sINLmjvOR_UBWvTeOA~Al1zBxognQL37BHZj9ErQj34cu8Hv2ekiPwyCaA1IyRAwdoYvv3HgCDOzoDGnkQA");
-
-            LoadApplication(new AppTrips.App());
+            MarkerWindowImage.Source = new BitmapImage(new Uri(trip.ImageUrl));
+            MarkerWindowTitle.Text = trip.Title;
+            MarkerWindowNotes.Text = trip.Notes;
         }
     }
 }
