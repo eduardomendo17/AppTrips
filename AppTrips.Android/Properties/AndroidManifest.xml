@@ -12,7 +12,7 @@
     android:usesCleartextTraffic="true">
     <meta-data 
       android:name="com.google.android.geo.API_KEY" 
-      android:value="AIzaSyAh9WWYwKpiotmfh-fz1mJfwO0mfh7epmQ" />
+      android:value="GOOGLE_MAPS_API_KEY" />
     <provider android:name="android.support.v4.content.FileProvider"
           android:authorities="${applicationId}.fileprovider"
           android:exported="false"
