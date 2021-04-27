@@ -23,14 +23,14 @@ namespace WebApiTrips.Controllers
 
         // GET: api/Trips
         [HttpGet]
-        public ObservableCollection<TripModel> Get()
+        public ApiResponse Get()
         {
             return new TripModel().GetAll(Configuration.GetConnectionString("MySQL"));
         }
 
         // GET: api/Trips/5
         [HttpGet("{id}", Name = "Get")]
-        public TripModel Get(int id)
+        public ApiResponse Get(int id)
         {
             return new TripModel().Get(Configuration.GetConnectionString("MySQL"), id);
         }

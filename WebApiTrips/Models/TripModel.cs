@@ -22,7 +22,7 @@ namespace WebApiTrips.Models
         {
         }
 
-        public ObservableCollection<TripModel> GetAll(string connectionString)
+        public ApiResponse GetAll(string connectionString)
         {
             ObservableCollection<TripModel> list = new ObservableCollection<TripModel>();
             try
@@ -52,11 +52,21 @@ namespace WebApiTrips.Models
                         }
                     }
                 }
-                return list;
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Result = list,
+                    Message = "Los viajes se cargaron correctamente"
+                };
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                throw;
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Result = null,
+                    Message = exc.Message
+                };
             }
 
             /*return new ObservableCollection<TripModel>
@@ -108,7 +118,7 @@ namespace WebApiTrips.Models
             };*/
         }
 
-        public TripModel Get(string connectionString, int id)
+        public ApiResponse Get(string connectionString, int id)
         {
             TripModel obj = new TripModel();
             try
@@ -139,11 +149,21 @@ namespace WebApiTrips.Models
                         }
                     }
                 }
-                return obj;
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Result = obj,
+                    Message = "El viaje se cargó correctamente"
+                };
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                throw;
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Result = null,
+                    Message = exc.Message
+                };
             }
         }
 

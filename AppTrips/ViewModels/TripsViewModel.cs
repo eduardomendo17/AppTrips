@@ -1,6 +1,7 @@
 ﻿using AppTrips.Models;
 using AppTrips.Services;
 using AppTrips.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -95,13 +96,15 @@ namespace AppTrips.ViewModels
         private async void LoadTrips()
         {
             IsBusy = true;
-            ApiResponse response = await new ApiService().GetDataAsync<TripModel>("trips");
+            ApiResponse response = await new ApiService().GetDataAsync("trips"); //GetDataAsync<TripModel>("trips");
             if (response == null || !response.IsSuccess)
             {
                 await Application.Current.MainPage.DisplayAlert("Error al cargar los viajes", response.Message, "Ok");
-                return;
             }
-            Trips = (ObservableCollection<TripModel>)response.Result;
+            else
+            {
+                Trips = JsonConvert.DeserializeObject<ObservableCollection<TripModel>>(response.Result.ToString()); //(ObservableCollection<TripModel>)response.Result;
+            }
             IsBusy = false;
         }
 

@@ -21,8 +21,8 @@ namespace AppTrips.UWP.Renders
 
             if (Control != null)
             {
-                Control.Background = new SolidColorBrush(Colors.Yellow);
-                Control.BackgroundFocusBrush = new SolidColorBrush(Colors.Yellow);
+                Control.Background = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Yellow);
+                Control.BackgroundFocusBrush = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Yellow);
             }
         }
     }

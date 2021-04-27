@@ -11,9 +11,9 @@ namespace AppTrips.Services
 {
     public class ApiService
     {
-        private string ApiUrl = "http://192.168.14.1:14/webapitrips/";
+        private string ApiUrl = "http://192.168.14.40/webapitrips/";
 
-        public async Task<ApiResponse> GetDataAsync<T>(string controller)
+        public async Task<ApiResponse> GetDataAsync(string controller) //GetDataAsync<T>(string controller)
         {
             try
             {
@@ -33,13 +33,14 @@ namespace AppTrips.Services
                     };
                 }
 
-                var data = JsonConvert.DeserializeObject<ObservableCollection<T>>(result);
+                /*var data = JsonConvert.DeserializeObject<ObservableCollection<T>>(result);
                 return new ApiResponse
                 {
                     IsSuccess = true,
                     Message = "Ok",
                     Result = data
-                };
+                };*/
+                return JsonConvert.DeserializeObject<ApiResponse>(result);
             }
             catch (System.Exception ex)
             {
